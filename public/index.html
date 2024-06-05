@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>아사기자</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: rgb(246, 246, 253);
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px; 
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        #messageContainer {
+            max-height: 70vh; 
+            overflow-y: auto; 
+        }
+        .message {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #e7f3fe;
+            border-left: 5px solid #2196F3;
+            border-radius: 5px;
+        }
+        .to-top-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            font-size: 14px;
+        }
+        .to-top-btn:hover {
+            background-color: #0d47a1;
+        }
+    </style>
+    <script>
+        const socket = io();
+
+        socket.on('NFC_Match', function(message) {
+            const currentTime = new Date().toLocaleTimeString(); 
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.innerText = `${message} - ${currentTime}`; 
+            document.getElementById('messageContainer').appendChild(messageElement);
+
+            
+            document.getElementById('toTopBtn').style.display = 'block';
+        });
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>✅ 동아리방 출입 체크</h2>
+        <div id="messageContainer"></div>
+    </div>
+    <button id="toTopBtn" class="to-top-btn" onclick="scrollToTop()">등록</button>
+    <button id="toTopBtn" class="to-top-btn" onclick="scrollToTop()">맨 위로</button>
+</body>
+</html>
